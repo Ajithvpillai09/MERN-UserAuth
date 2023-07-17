@@ -31,18 +31,28 @@ const ProfileScreen = () => {
   },[userInfo.email,userInfo.name])
 
   const submitHandler = async (e) => {
-    console.log(e.target.files);
+   
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
     } else {
       try {
-        const res = await updateProfile({
-          _id: userInfo._id,
-          name,
-          email,
-          password,
-        }).unwrap();
+        const formData = new FormData();
+        formData.append('_id', userInfo._id);
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('image', image); // Append the image file to the FormData
+
+        const res = await updateProfile(formData).unwrap();
+    
+         
+        // const res = await updateProfile({
+        //   _id: userInfo._id,
+        //   name,
+        //   email,
+        //   password,
+        // }).unwrap();
         dispatch(setCredentials({ ...res }));
         toast.success('Profile updated successfully');
       } catch (err) {
@@ -55,14 +65,13 @@ const ProfileScreen = () => {
     <FormContainer>
       <h1>Update Profile</h1> 
 
-      <Form onSubmit={submitHandler} >
+      <Form onSubmit={submitHandler}  >
         <Form.Group className='my-2' controlId='image'>
             <Form.Label>Image</Form.Label>
             <Form.Control
               type='file'
               accept='.png, .jpg, .jpeg'
               onChange={(e) =>{
-                console.log(e.target.files);
                 setImage(e.target.files[0])
               }}
             />

@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler"
 import User from "../models/userModel.js";
 
 
+
 export const createUser =asyncHandler(async (data)=>{
     const {name,email,password} = data;
     const userExist = await User.findOne({email})

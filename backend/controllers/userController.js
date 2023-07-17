@@ -2,7 +2,23 @@ import asyncHandler from "express-async-handler"
 import generateToken from "../utils/generateToken.js";
 import { createUser ,authenticateUser} from "../utils/userUtils.js";
 import User from "../models/userModel.js";
+import multer from "multer";
  
+
+const storage = multer.diskStorage({
+  destination: function(req, file , cb){
+    return cb (null, "./utils/uploads")
+  },
+  filename : function(req, file , cb){
+    return cb (null, `${Date.now()}-${file.name}`)
+  }
+})
+
+
+
+const upload = multer({storage}).single('image')
+
+
 export const basePath = (req,res)=>{
     res.status(200).json({message:"server is ready"})
 }
@@ -80,28 +96,35 @@ export const getUserProfile = asyncHandler(async(req,res)=>{
 //access PRIVATE
 
 
-export const updateUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+export const updateUserProfile = 
+    asyncHandler
+      (async (req, res) => {
+       
+        const user = await User.findById(req.user._id)
+    
+        if (user) {
+          user.name = req.body.name || user.name;
+          user.email = req.body.email || user.email;
+      
+          if (req.body.password) {
+            user.password = req.body.password; 
+          }
+      
+          const updatedUser = await user.save();
+      
+          res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            meassage:"user updated successfully"
+          });
+        } else {
+          res.status(404);
+          throw new Error('User not found');
+        }
 
-  
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-  
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
-  
-      const updatedUser = await user.save();
-  
-      res.json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        meassage:"user updated successfully"
-      });
-    } else {
-      res.status(404);
-      throw new Error('User not found');
-    }
-  });
+  })
+      
+      
+        
+      

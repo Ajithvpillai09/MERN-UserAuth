@@ -11,6 +11,29 @@ import Loader from '../components/Loader';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validateForm = () => {
+    let isValid = true;
+    setEmailError('');
+    setPasswordError('');
+  
+    if (!email) {
+      setEmailError('Email is required.');
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('Invalid email format.');
+      isValid = false;
+    }
+  
+    if (!password) {
+      setPasswordError('Password is required.');
+      isValid = false;
+    }
+  
+    return isValid;
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,13 +50,17 @@ const LoginScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate('/');
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
+    if(validateForm()){
+      try {
+        const res = await login({ email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate('/');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+
     }
+    
   };
 
   return (
@@ -47,8 +74,10 @@ const LoginScreen = () => {
             type='email'
             placeholder='Enter email'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {setEmail(e.target.value),validateForm()}}
+            isInvalid={!!emailError}
           ></Form.Control>
+            <Form.Control.Feedback type='invalid'>{emailError}</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='my-2' controlId='password'>
@@ -57,8 +86,10 @@ const LoginScreen = () => {
             type='password'
             placeholder='Enter password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {setPassword(e.target.value),validateForm()}}
+            isInvalid={!!passwordError}
           ></Form.Control>
+          <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback>
         </Form.Group>
          {isLoading && <Loader/>}
         <Button type='submit' variant='primary' className='mt-3'>

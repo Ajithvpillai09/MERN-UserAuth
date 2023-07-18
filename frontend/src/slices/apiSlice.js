@@ -7,3 +7,9 @@ export const apiSlice = createApi({
   tagTypes: ['User'],
   endpoints: (builder) => ({}),
 });
+
+export const adminApi = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+  tagTypes:['Admin'],
+  endpoints:(builder)=>({}),
+})

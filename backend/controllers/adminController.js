@@ -5,18 +5,17 @@ import User from "../models/userModel.js"
 
 
 export const adminLogin = asyncHandler(async (req,res)=>{
+    
    const admin = await authenticateAdmin(req.body)
    if(admin){
     generateAdminToken(res,admin._id)
+    const users = await User.find({isBlocked:false})
     res.status(200)
     .json(
        {
-           _id:admin._id,
-           name:admin.name,
-           email:admin.email,
-           message:"admin loggedin"
+        users
        }
-    )
+    ) 
    }else{
     res.status(400)
        throw new Error("invalid email or password")
@@ -36,6 +35,7 @@ export const getAllUsers = asyncHandler(async (req,res)=>{
 })
 
 export const createUserAdmin = asyncHandler(async (req,res)=>{
+    
     const user = await createUser(req.body)
     if(!user){
         res.status(400)
@@ -48,7 +48,7 @@ export const createUserAdmin = asyncHandler(async (req,res)=>{
                _id:user._id,
                name:user.name,
                email:user.email,
-               message:"user created successfully"
+             
            }
         )
     }else{

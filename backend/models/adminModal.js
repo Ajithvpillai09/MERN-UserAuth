@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs"
 
-const UserSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -14,10 +14,6 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    isBlocked:{
-        type:Boolean,
-        default:false
-    },
     image:{
         type:String
     }
@@ -26,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     timestamps:true
 });
 
-UserSchema.pre('save', async function (next){
+AdminSchema.pre('save', async function (next){
     if(!this.isModified('password')){
         next();
     }
@@ -34,10 +30,10 @@ UserSchema.pre('save', async function (next){
     this.password = await bcrypt.hash(this.password,salt)
 })
 
-UserSchema.methods.matchPassword = async function (enteredPassword){
+AdminSchema.methods.matchPassword = async function (enteredPassword){
      return await bcrypt.compare(enteredPassword,this.password)
 }
 
-const User = mongoose.model('User',UserSchema);
+const Admin = mongoose.model('Admin',AdminSchema);
 
-export default User;
+export default Admin;

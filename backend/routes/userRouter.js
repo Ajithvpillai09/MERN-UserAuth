@@ -1,6 +1,6 @@
 import express from "express"
 import * as userController from "../controllers/userController.js" 
-import { protect } from "../middlewares/authMiddleware.js";
+import { protectUser } from "../middlewares/authMiddleware.js";
 
 
 
@@ -10,8 +10,8 @@ router.post('/',userController.registerUser)
 router.post('/auth',userController.authUser);
 router.post('/logout',userController.logoutUser);
 router.route('/profile')
-  .get(protect,userController.getUserProfile)
-  .put(protect,userController.updateUserProfile)
+  .get(protectUser,userController.getUserProfile)
+  .put(protectUser,userController.updateUserProfile)
 
 export default router;
 

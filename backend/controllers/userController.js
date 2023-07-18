@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler"
-import generateToken from "../utils/generateToken.js";
+import {generateUserToken} from "../utils/generateToken.js";
 import { createUser ,authenticateUser} from "../utils/userUtils.js";
 import User from "../models/userModel.js";
 import multer from "multer";
@@ -29,7 +29,7 @@ export const basePath = (req,res)=>{
 export const authUser = asyncHandler(async(req,res)=>{
     const user = await authenticateUser(req.body)
     if(user){
-        generateToken(res,user._id)
+      generateUserToken(res,user._id)
         res.status(201)
          .json(
             {
@@ -55,7 +55,7 @@ export const registerUser = asyncHandler(async(req,res)=>{
         throw new Error('User already exists')
     }
     if(user){
-        generateToken(res,user._id)
+      generateUserToken(res,user._id)
         res.status(201)
          .json(
             {

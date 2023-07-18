@@ -15,42 +15,9 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [nameError,setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError,setConfirmPasswordError] = useState('')
+ 
 
-  const validateForm = () => {
-    let isValid = true;
-    setNameError('')
-    setEmailError('');
-    setPasswordError('');
-    setConfirmPasswordError('')
-  
-    if(!name){
-      setNameError("user name required")
-      isValid = false
-    }
-
-    if (!email) {
-      setEmailError('Email is required.');
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Invalid email format.');
-      isValid = false;
-    }
-  
-    if (!password) {
-      setPasswordError('Password is required.');
-      isValid = false;
-    }
-    if(!confirmPassword){
-      setConfirmPasswordError('Please confirm your password')
-      isValid = false;
-    }
-  
-    return isValid;
-  };
+ 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +37,7 @@ const RegisterScreen = () => {
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
     } else {
-      if(validateForm()){
+      
         try {
           const res = await register({ name, email, password }).unwrap();
           dispatch(setCredentials({ ...res }));
@@ -78,7 +45,6 @@ const RegisterScreen = () => {
         } catch (err) {
           toast.error(err?.data?.message || err.error);
         }
-      }
       
     }
   };
@@ -93,34 +59,36 @@ const RegisterScreen = () => {
             type='name'
             placeholder='Enter name'
             value={name}
-            onChange={(e) =>{ setName(e.target.value,validateForm())}}
-            isInvalid={!!nameError}
+            onChange={(e) => setName(e.target.value)}
+            // isInvalid={!!nameError}
           ></Form.Control>
-           <Form.Control.Feedback type='invalid'>{nameError}</Form.Control.Feedback>
+           {/* <Form.Control.Feedback type='invalid'>{nameError}</Form.Control.Feedback> */}
         </Form.Group>
 
         <Form.Group className='my-2' controlId='email'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type='email'
+            
             placeholder='Enter email'
             value={email}
-            onChange={(e) => {setEmail(e.target.value),validateForm()}}
-            isInvalid={!!emailError}
+            onChange={(e) => setEmail(e.target.value)}
+            // isInvalid={!!emailError}
           ></Form.Control>
-            <Form.Control.Feedback type='invalid'>{emailError}</Form.Control.Feedback>
+            {/* <Form.Control.Feedback type='invalid'>{emailError}</Form.Control.Feedback> */}
         </Form.Group>
 
         <Form.Group className='my-2' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
+            
             placeholder='Enter password'
             value={password}
-            onChange={(e) => {setPassword(e.target.value),validateForm()}}
-            isInvalid={!!passwordError}
+            onChange={(e) => setPassword(e.target.value)}
+            // isInvalid={!!passwordError}
           ></Form.Control>
-          <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback>
+          {/* <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback> */}
         </Form.Group>
 
 
@@ -130,10 +98,10 @@ const RegisterScreen = () => {
             type='password'
             placeholder='confirm password'
             value={confirmPassword}
-            onChange={(e) => {setConfirmPassword(e.target.value),validateForm()}}
-            isInvalid={!!confirmPasswordError}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            // isInvalid={!!confirmPasswordError}
           ></Form.Control>
-          <Form.Control.Feedback type='invalid'>{confirmPasswordError}</Form.Control.Feedback>
+          {/* <Form.Control.Feedback type='invalid'>{confirmPasswordError}</Form.Control.Feedback> */}
         </Form.Group>
         {
           isLoading && <Loader />

@@ -14,7 +14,7 @@ const Hero = () => {
             an HTTP-Only cookie. It also uses Redux Toolkit and the React
             Bootstrap library
           </p>
-          <div className='d-flex'>
+          {/* <div className='d-flex'>
             <LinkContainer to={'/login'}>
             <Button variant='primary' className='me-3'>
               Sign In
@@ -26,7 +26,7 @@ const Hero = () => {
             </Button>
            </LinkContainer>
            
-          </div>
+          </div> */}
         </Card>
       </Container>
     </div>

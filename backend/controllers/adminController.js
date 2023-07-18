@@ -5,7 +5,7 @@ import User from "../models/userModel.js"
 
 
 export const adminLogin = asyncHandler(async (req,res)=>{
-    console.log("api call from react");
+    
    const admin = await authenticateAdmin(req.body)
    if(admin){
     generateAdminToken(res,admin._id)
@@ -35,6 +35,7 @@ export const getAllUsers = asyncHandler(async (req,res)=>{
 })
 
 export const createUserAdmin = asyncHandler(async (req,res)=>{
+    
     const user = await createUser(req.body)
     if(!user){
         res.status(400)
@@ -47,7 +48,7 @@ export const createUserAdmin = asyncHandler(async (req,res)=>{
                _id:user._id,
                name:user.name,
                email:user.email,
-               message:"user created successfully"
+             
            }
         )
     }else{

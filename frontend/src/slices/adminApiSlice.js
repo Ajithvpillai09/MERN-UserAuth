@@ -10,8 +10,15 @@ export const adminApiSlice =adminApi.injectEndpoints({
         body: data,
       }),
     }),
+    create:builder.mutation({
+      query:(data)=>({
+        url:`${ADMIN_URL}/users`,
+        method:'POST',
+        body:data,
+      })
+    })
   }),
 });
 
 
-export const { useLoginMutation } = adminApiSlice;
+export const { useLoginMutation ,useCreateMutation} = adminApiSlice;

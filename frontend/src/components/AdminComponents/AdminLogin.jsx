@@ -1,11 +1,12 @@
 import {useState,useEffect} from "react"
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
+import FormContainer from '../FormContainer';
 import { useDispatch  } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../slices/adminApiSlice";
-import { adminLogin } from "../slices/adminSlice";
+import { useLoginMutation } from "../../slices/adminApiSlice";
+import { adminLogin } from "../../slices/adminSlice";
 import { toast } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
 
 const AdminLogin = () => {
     const [admin,setAdmin] = useState({
@@ -23,7 +24,8 @@ const submitHandler = async (e)=>{
     try {
      const res = await login({email:admin.email,password:admin.password}).unwrap();
      dispatch(adminLogin({...res}))
-     toast.success("admin logged in")
+     navigate('/admin/home')
+    
     } catch (err) {
         toast.error(err?.data?.message || err.error);
     }
@@ -33,6 +35,7 @@ const submitHandler = async (e)=>{
 
   return (
     <FormContainer>
+     <ToastContainer/>
       <h1>Sign In</h1>
 
       <Form onSubmit={submitHandler}>

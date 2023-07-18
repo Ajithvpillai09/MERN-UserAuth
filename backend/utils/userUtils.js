@@ -19,7 +19,10 @@ export const createUser =asyncHandler(async (data)=>{
 
 export const authenticateUser = asyncHandler( async (data)=>{
     const {email,password} = data;
-    let user = await User.findOne({email})
+    let user = await User.findOne({
+        email:email,
+        isBlocked:false
+    })
      if(user && (await user.matchPassword(password))){
         return user;
      }

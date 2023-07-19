@@ -30,26 +30,32 @@ const ProfileScreen = () => {
 
   },[userInfo.email,userInfo.name])
 
-  const submitHandler = async (e) => {
+  // const submitHandler = async (e) => {
    
+  //   e.preventDefault();
+  //   console.log(image);
+  //   if (password !== confirmPassword) {
+  //     toast.error('Passwords do not match');
+  //   } else {
+  //     try {         
+  //       const res = await updateProfile({
+  //         _id: userInfo._id,
+  //         name,
+  //         email,
+  //         password,
+  //       }).unwrap();
+  //       dispatch(setCredentials({ ...res }));
+  //       toast.success('Profile updated successfully');
+  //     } catch (err) {
+  //       toast.error(err?.data?.message || err.error);
+  //     }
+  //   }
+  // };
+
+  const submitHandler = (e)=>{
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-    } else {
-      try {         
-        const res = await updateProfile({
-          _id: userInfo._id,
-          name,
-          email,
-          password,
-        }).unwrap();
-        dispatch(setCredentials({ ...res }));
-        toast.success('Profile updated successfully');
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
-    }
-  };
+
+  }
 
   return (
     <FormContainer>
@@ -57,8 +63,8 @@ const ProfileScreen = () => {
 
       <Form onSubmit={submitHandler}  >
         <Form.Group className='my-2' controlId='image'>
-            <Form.Label>Image</Form.Label>
-            <Form.Control
+            <Form.Label>Profile Image</Form.Label>
+            <Form.File
               type='file'
               accept='.png, .jpg, .jpeg'
               onChange={(e) =>{

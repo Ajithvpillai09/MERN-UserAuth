@@ -1,7 +1,7 @@
 import {useState,useEffect} from "react"
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import FormContainer from '../FormContainer';
-import { useDispatch  } from "react-redux";
+import { useDispatch ,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../slices/adminApiSlice";
 import { adminLogin } from "../../slices/adminSlice";
@@ -16,6 +16,15 @@ const AdminLogin = () => {
 
 const dispatch = useDispatch();
 const navigate = useNavigate();
+const adminInfo = useSelector((state)=> state.admin.admin)
+
+
+useEffect(()=>{
+  if(adminInfo) navigate('/admin/home')
+},[navigate,adminInfo])
+
+
+
 
 const [login] = useLoginMutation();
 

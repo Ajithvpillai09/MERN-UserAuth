@@ -4,7 +4,7 @@ import FormContainer from "../FormContainer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useCreateMutation } from "../../slices/adminApiSlice";
-import { createUser } from "../../slices/adminSlice";
+import { createUser } from "../../slices/usersSlice";
 import { toast } from 'react-toastify';
 import { ToastContainer } from "react-toastify";
 
@@ -29,11 +29,9 @@ const CreateUser = () => {
             toast.error('Passwords do not match');
         }else{
             try {
-                const res = await create(user).unwrap();
-                dispatch(createUser({...res}))
-                // navigate('/admin/home')
-                toast.success("user created successfully")
-                
+                  await create(user);
+                  toast.success("user created successfully")
+                  navigate('/admin/home')
             } catch (err) {
                 toast.error(err?.data?.message || err.error);
             }
@@ -46,6 +44,7 @@ const CreateUser = () => {
          <ToastContainer/>
       <h1>Create</h1>
       <Form onSubmit={submitHandler}>
+         
         <Form.Group className='my-2' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control

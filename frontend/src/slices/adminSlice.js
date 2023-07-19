@@ -3,18 +3,21 @@ import { createSlice } from '@reduxjs/toolkit';
 const adminSlice = createSlice({
     name:'admin',
     initialState:{
-        users:[]
+        admin:localStorage.getItem('adminInfo') ? JSON.parse(localStorage.getItem('adminInfo')) : null,
+       
     },
     reducers:{
         adminLogin:(state,action)=>{
-            state.users.push(action.payload.users)
+            state.admin=action.payload
+            localStorage.setItem('adminInfo',JSON.stringify(action.payload))
         },
-        createUser:(state,action)=>{
-            state.users.push(action.payload.users)
+        adminLogout:(state,action)=>{
+            state.admin = null;
+            localStorage.removeItem('adminInfo');
         }
     }
 })
 
-export const {adminLogin , createUser} = adminSlice.actions;
+export const {adminLogin,adminLogout} = adminSlice.actions;
 
 export default adminSlice.reducer;

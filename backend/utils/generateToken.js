@@ -6,7 +6,7 @@ export const generateUserToken = (res,userId)=>{
             expiresIn:'30d'
         });
    
-    res.cookie('jwt',token,
+    res.cookie('jwtuser',token,
     {
         httpOnly:true,
         secure:process.env.NODE_ENV !== 'development',
@@ -21,7 +21,7 @@ export const generateAdminToken = (res,adminId)=>{
             expiresIn:'30d'
         });
    
-    res.cookie('jwt',token,
+    res.cookie('jwtadmin',token,
     {
         httpOnly:true,
         secure:process.env.NODE_ENV !== 'development',

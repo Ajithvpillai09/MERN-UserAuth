@@ -9,13 +9,15 @@ export const adminLogin = asyncHandler(async (req,res)=>{
    const admin = await authenticateAdmin(req.body)
    if(admin){
     generateAdminToken(res,admin._id)
-    const users = await User.find({isBlocked:false})
+    // const users = await User.find({isBlocked:false})
     res.status(200)
-    .json(
-       {
-        users
-       }
-    ) 
+    .json({
+
+        _id:admin._id,
+        name:admin.name,
+        email:admin.email,
+        admin:true
+     }) 
    }else{
     res.status(400)
        throw new Error("invalid email or password")
@@ -24,6 +26,7 @@ export const adminLogin = asyncHandler(async (req,res)=>{
 })
 
 export const getAllUsers = asyncHandler(async (req,res)=>{
+ 
     const users= await getUsers();
     if(users) {
         res.status(200).json(users)
@@ -35,7 +38,7 @@ export const getAllUsers = asyncHandler(async (req,res)=>{
 })
 
 export const createUserAdmin = asyncHandler(async (req,res)=>{
-    
+  
     const user = await createUser(req.body)
     if(!user){
         res.status(400)
@@ -59,13 +62,14 @@ export const createUserAdmin = asyncHandler(async (req,res)=>{
 })
 
 export const editUsersAdmin = asyncHandler(async (req,res)=>{
+    
     const updatedUser =await editUsers(req.body)
     if(updatedUser){
         res.json({
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
-            meassage:"user updated successfully"
+            message:"user updated successfully"
           });
 
     }else {
@@ -75,17 +79,20 @@ export const editUsersAdmin = asyncHandler(async (req,res)=>{
 })
 
 export const deleteUsers = asyncHandler (async(req,res)=>{
-    const deleted = await User.updateOne(
-        {_id:req.query.id},
-        {
-            $set:{isBlocked:true}
-        })
+   
+     await User.deleteOne({ _id: req.query.id });
   
-    res.status(200).json({message:"user deleted successfully"})
+    res.status(200).json({message:"user deleted successfully",id:req.query.id})
+})
+
+export const getUser = asyncHandler(async (req,res)=>{
+    let user = await User.findOne({_id:req.query.id})
+    if(user) res.status(200).json(user)
+    else throw new Error('cant delete user')
 })
 
 export const logoutAdmin = asyncHandler(async(req,res)=>{
-    res.cookie('jwt','',
+    res.cookie('jwtadmin','',
     {
      httpOnly:true,
      expires:new Date(0)

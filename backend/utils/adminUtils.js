@@ -14,7 +14,7 @@ export const authenticateAdmin = asyncHandler( async (data)=>{
 })
 
 export const getUsers = asyncHandler(async(req,res)=>{
-    const users = await User.find({isBlocked:false});
+    const users = await User.find();
     if(users) return users
     return false;
 })

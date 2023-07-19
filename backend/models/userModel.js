@@ -14,10 +14,6 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    isBlocked:{
-        type:Boolean,
-        default:false
-    },
     image:{
         type:String
     }

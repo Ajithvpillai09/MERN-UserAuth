@@ -20,6 +20,7 @@ import AdminLogin from './components/AdminComponents/AdminLogin.jsx'
 import AdminHome from './components/AdminComponents/AdminHome.jsx'
 import Admin from './Admin.jsx'
 import CreateUser from './components/AdminComponents/CreateUser.jsx'
+import EditUser from './components/AdminComponents/EditUser.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
         <Route path='/admin' element={<AdminLogin />} />
         <Route path='home' element={<AdminHome />} />
         <Route path='create' element={<CreateUser />} />
+        <Route path='edit/:id' element={<EditUser />} />
     </Route>
   </>
   )

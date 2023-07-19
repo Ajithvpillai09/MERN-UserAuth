@@ -41,7 +41,7 @@ export const adminApiSlice =adminApi.injectEndpoints({
       query:(data)=>({
         url:`${ADMIN_URL}/edit`,
         method:"PUT",
-        body:data
+        body:data,
       })
     }),
     logout:builder.mutation({

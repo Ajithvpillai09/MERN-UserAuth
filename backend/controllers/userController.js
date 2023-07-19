@@ -5,18 +5,19 @@ import User from "../models/userModel.js";
 import multer from "multer";
  
 
+//storage
 const storage = multer.diskStorage({
   destination: function(req, file , cb){
-    return cb (null, "./utils/uploads")
+    return cb (null, "./public/uploads")
   },
   filename : function(req, file , cb){
-    return cb (null, `${Date.now()}-${file.name}`)
+    return cb (null, `${Date.now()}-${file.originalname}`)
   }
 })
 
 
 
-const upload = multer({storage}).single('image')
+const upload = multer({storage})
 
 
 export const basePath = (req,res)=>{
@@ -89,7 +90,7 @@ export const getUserProfile = asyncHandler(async(req,res)=>{
 
 export const updateUserProfile = 
     asyncHandler
-      (async (req, res) => {
+      (async (req, res)  => {
        
         const user = await User.findById(req.user._id)
     
@@ -115,6 +116,8 @@ export const updateUserProfile =
         }
 
   })
+
+
       
       
         

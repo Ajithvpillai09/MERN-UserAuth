@@ -92,7 +92,7 @@ export const getUser = asyncHandler(async (req,res)=>{
 })
 
 export const logoutAdmin = asyncHandler(async(req,res)=>{
-    res.cookie('jwt','',
+    res.cookie('jwtadmin','',
     {
      httpOnly:true,
      expires:new Date(0)

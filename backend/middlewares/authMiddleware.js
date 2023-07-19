@@ -5,7 +5,7 @@ import Admin from '../models/adminModal.js';
 
 export const protectUser = asyncHandler(async (req,res,next)=>{
     let token;
-    token = req.cookies.jwt;
+    token = req.cookies.jwtuser;
    if(token){
         try {
            const decoded = jwt.verify(token,process.env.JWT_SECRET)
@@ -23,7 +23,7 @@ export const protectUser = asyncHandler(async (req,res,next)=>{
 
 export const protectAdmin = asyncHandler(async (req,res,next)=>{
     let token;
-    token = req.cookies.jwt;
+    token = req.cookies.jwtadmin;
    if(token){
         try {
            const decoded = jwt.verify(token,process.env.JWT_SECRET)

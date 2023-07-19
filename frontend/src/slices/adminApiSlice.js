@@ -43,8 +43,22 @@ export const adminApiSlice =adminApi.injectEndpoints({
         method:"PUT",
         body:data
       })
+    }),
+    logout:builder.mutation({
+      query:(data)=>({
+        url:`${ADMIN_URL}/logout`,
+        method:'POST',  
+      })
     })
   }),
 });
 
-export const { useLoginMutation,useGetUserMutation,useCreateMutation,useDeleteUserMutation,useEditUserMutation,useUpdateUserMutation} = adminApiSlice;
+export const { 
+  useLoginMutation,
+  useGetUserMutation,
+  useCreateMutation,
+  useDeleteUserMutation,
+  useEditUserMutation,
+  useUpdateUserMutation,
+  useLogoutMutation
+     } = adminApiSlice;

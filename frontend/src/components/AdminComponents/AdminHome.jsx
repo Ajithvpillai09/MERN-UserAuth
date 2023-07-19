@@ -43,21 +43,15 @@ const AdminHome = ()=>{
             toast.error(err?.data?.message || err.error);
             
         }
-    }
-
-    
-   
+    } 
     return(
       
     
         <div className="container">
             <h2>ADMIN PANEL</h2>
-            <ToastContainer/>
-           
+            <ToastContainer/>         
             <button className="btn btn-success my-3" onClick={()=> navigate('/admin/create')}>Create +</button>
-            <input className="mx-2 p-1" type="search" placeholder="search here..."></input>
-            
-            
+            <input className="mx-2 p-1" type="search" placeholder="search here..."></input>           
             <table className="table">
                 <thead>
                     <tr>
@@ -67,8 +61,7 @@ const AdminHome = ()=>{
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                  
+                <tbody>                  
                     {user?.map((user,index)=>
                          <tr key={user._id}>
                          <td>{index+1}</td>
@@ -79,14 +72,9 @@ const AdminHome = ()=>{
                              <button className="btn btn-sm btn-danger ms-2" onClick={()=> deleteUsers(user._id)}>Delete</button>
                          </td>
                      </tr>
-
                     )} 
-                   
-
                 </tbody>
-
-            </table>
-     
+            </table>     
         </div>
     )
 }

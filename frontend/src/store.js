@@ -2,8 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import adminReducer from './slices/adminSlice'
 import usersReducer from './slices/usersSlice'
-import { apiSlice,adminApi} from './slices/apiSlice';
-
 
 const store = configureStore({
   reducer: {

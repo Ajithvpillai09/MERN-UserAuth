@@ -2,23 +2,6 @@ import asyncHandler from "express-async-handler"
 import {generateUserToken} from "../utils/generateToken.js";
 import { createUser ,authenticateUser} from "../utils/userUtils.js";
 import User from "../models/userModel.js";
-import multer from "multer";
- 
-
-//storage
-const storage = multer.diskStorage({
-  destination: function(req, file , cb){
-    return cb (null, "./public/uploads")
-  },
-  filename : function(req, file , cb){
-    return cb (null, `${Date.now()}-${file.originalname}`)
-  }
-})
-
-
-
-const upload = multer({storage})
-
 
 export const basePath = (req,res)=>{
     res.status(200).json({message:"server is ready"})
@@ -26,6 +9,7 @@ export const basePath = (req,res)=>{
 
 
 export const authUser = asyncHandler(async(req,res)=>{
+
     const user = await authenticateUser(req.body)
     if(user){
      

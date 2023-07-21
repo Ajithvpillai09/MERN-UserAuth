@@ -3,7 +3,7 @@ import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import {LinkContainer} from "react-router-bootstrap"
 import { useSelector, useDispatch } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
-import { adminLogout } from '../../slices/adminSlice';
+import { adminLogoutR } from '../../slices/adminSlice';
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from '../../slices/adminApiSlice';
 
@@ -20,7 +20,7 @@ const Header = () => {
 const logoutHandler = async () => {
     try {
         await logout().unwrap();
-        dispatch(adminLogout());
+        dispatch(adminLogoutR());
         navigate('/admin');
     } catch (err) {
         toast.error(err?.data?.message || err.error);

@@ -7,17 +7,17 @@ const adminSlice = createSlice({
        
     },
     reducers:{
-        adminLogin:(state,action)=>{
+        adminLoginR:(state,action)=>{
             state.admin=action.payload
             localStorage.setItem('adminInfo',JSON.stringify(action.payload))
         },
-        adminLogout:(state,action)=>{
+        adminLogoutR:(state,action)=>{
             state.admin = null;
             localStorage.removeItem('adminInfo');
         }
     }
 })
 
-export const {adminLogin,adminLogout} = adminSlice.actions;
+export const {adminLoginR,adminLogoutR} = adminSlice.actions;
 
 export default adminSlice.reducer;

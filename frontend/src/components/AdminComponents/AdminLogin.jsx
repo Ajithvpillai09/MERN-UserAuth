@@ -3,8 +3,8 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import FormContainer from '../FormContainer';
 import { useDispatch ,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../slices/adminApiSlice";
-import { adminLogin } from "../../slices/adminSlice";
+import { useAdminLoginMutation } from "../../slices/adminApiSlice";
+import { adminLoginR } from "../../slices/adminSlice";
 import { toast } from "react-toastify";
 import { ToastContainer } from 'react-toastify';
 
@@ -26,13 +26,13 @@ useEffect(()=>{
 
 
 
-const [login] = useLoginMutation();
+const [adminLogin] = useAdminLoginMutation();
 
 const submitHandler = async (e)=>{
     e.preventDefault();
     try {
-     const res = await login({email:admin.email,password:admin.password}).unwrap();
-     dispatch(adminLogin({...res}))
+     const res = await adminLogin({email:admin.email,password:admin.password}).unwrap();
+     dispatch(adminLoginR({...res}))
      navigate('/admin/home')
     
     } catch (err) {

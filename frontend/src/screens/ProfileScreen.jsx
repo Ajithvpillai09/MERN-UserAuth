@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
@@ -9,69 +10,56 @@ import Loader from '../components/Loader';
 import { useUpdateUserMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 
+
+
+
+
 const ProfileScreen = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [image, setImage] = useState(null);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
 
-  const {userInfo} = useSelector((state)=> state.auth);
+   const {userInfo} = useSelector((state)=> state.auth);
+   const [updateProfile,{isLoading}] = useUpdateUserMutation();
 
-  const [updateProfile,{isLoading}] = useUpdateUserMutation();
-  
+   useEffect(()=>{
+        setName(userInfo.name);
+        setEmail(userInfo.email)
+    
+      },[userInfo.email,userInfo.name])
 
-  useEffect(()=>{
-    setName(userInfo.name);
-    setEmail(userInfo.email)
-
-  },[userInfo.email,userInfo.name])
-
-  // const submitHandler = async (e) => {
+   const submitHandler = async (e) => {
    
-  //   e.preventDefault();
-  //   console.log(image);
-  //   if (password !== confirmPassword) {
-  //     toast.error('Passwords do not match');
-  //   } else {
-  //     try {         
-  //       const res = await updateProfile({
-  //         _id: userInfo._id,
-  //         name,
-  //         email,
-  //         password,
-  //       }).unwrap();
-  //       dispatch(setCredentials({ ...res }));
-  //       toast.success('Profile updated successfully');
-  //     } catch (err) {
-  //       toast.error(err?.data?.message || err.error);
-  //     }
-  //   }
-  // };
-
-  const submitHandler = (e)=>{
     e.preventDefault();
-
+   
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+    } else {
+      try {         
+        const res = await updateProfile({
+          _id: userInfo._id,
+          name,
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate('/')
+        toast.success('Profile updated successfully');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
   }
 
   return (
     <FormContainer>
-      <h1>Update Profile</h1> 
+      <h1>Update Profile</h1>
 
-      <Form onSubmit={submitHandler}  >
-        <Form.Group className='my-2' controlId='image'>
-            <Form.Label>Profile Image</Form.Label>
-            <Form.File
-              type='file'
-              accept='.png, .jpg, .jpeg'
-              onChange={(e) =>{
-                setImage(e.target.files[0])
-              }}
-            />
-          </Form.Group>
+      <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -109,7 +97,7 @@ const ProfileScreen = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-            {isLoading && <Loader/>}
+         {isLoading && <Loader/>}
         <Button type='submit' variant='primary' className='mt-3'>
           Update
         </Button>

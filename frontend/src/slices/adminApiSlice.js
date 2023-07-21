@@ -1,9 +1,9 @@
-import {adminApi } from './apiSlice';
+import {apiSlice } from './apiSlice';
 const ADMIN_URL = '/api/admin';
 
-export const adminApiSlice =adminApi.injectEndpoints({
+export const adminApiSlice =apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    adminLogin: builder.mutation({
       query: (data) => ({
         url: `${ADMIN_URL}/login`,
         method: 'POST',
@@ -37,7 +37,7 @@ export const adminApiSlice =adminApi.injectEndpoints({
         params:{id:id}
       })
     }),
-    updateUser:builder.mutation({
+    updateUserAdmin:builder.mutation({
       query:(data)=>({
         url:`${ADMIN_URL}/edit`,
         method:"PUT",
@@ -54,11 +54,11 @@ export const adminApiSlice =adminApi.injectEndpoints({
 });
 
 export const { 
-  useLoginMutation,
+  useAdminLoginMutation,
   useGetUserMutation,
   useCreateMutation,
   useDeleteUserMutation,
   useEditUserMutation,
-  useUpdateUserMutation,
+  useUpdateUserAdminMutation,
   useLogoutMutation
      } = adminApiSlice;

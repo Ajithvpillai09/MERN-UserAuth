@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from "react-toastify";
 import { useParams } from 'react-router-dom';
 import { useState,useEffect } from "react";
-import { useEditUserMutation ,useUpdateUserMutation } from '../../slices/adminApiSlice';
+import { useEditUserMutation ,useUpdateUserAdminMutation } from '../../slices/adminApiSlice';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -17,7 +17,7 @@ const EditUser = () => {
     })
 
     const [editUser] = useEditUserMutation();
-    const [updateUser] = useUpdateUserMutation();
+    const [updateUserAdmin] = useUpdateUserAdminMutation();
 
     const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const EditUser = () => {
     const submitHandler = async(e)=>{
         e.preventDefault();
         try {
-            const res = await updateUser(user).unwrap()
+            const res = await  updateUserAdmin(user).unwrap()
             toast.success(res.message)
             navigate('/admin/home')
             

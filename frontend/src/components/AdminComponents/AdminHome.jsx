@@ -29,9 +29,11 @@ const AdminHome = ()=>{
     async function getAllUsers(){
         try {
             const res = await getUser().unwrap()
+            console.log(res);
+            dispatch(getUsers(res))  
             setUsers(res)
             setFilteredUser(res)
-            dispatch(getUsers(res))      
+                
         } catch (err) {
             toast.error(err?.data?.message || err.error);
         }

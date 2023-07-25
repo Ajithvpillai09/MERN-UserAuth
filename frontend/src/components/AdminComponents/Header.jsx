@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
 import { adminLogoutR } from '../../slices/adminSlice';
 import { toast } from 'react-toastify';
-import { useLogoutMutation } from '../../slices/adminApiSlice';
+import { useAdminLogoutMutation} from '../../slices/adminApiSlice';
 
 
 
@@ -15,11 +15,11 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logout] = useLogoutMutation();
+  const [adminLogout] = useAdminLogoutMutation();
 
 const logoutHandler = async () => {
     try {
-        await logout().unwrap();
+        await adminLogout().unwrap();
         dispatch(adminLogoutR());
         navigate('/admin');
     } catch (err) {

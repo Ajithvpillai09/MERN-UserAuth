@@ -13,6 +13,8 @@ router.route('/profile')
   .get(protectUser,userController.getUserProfile)
   .put(protectUser,userController.updateUserProfile)
 
+router.put('/image',protectUser,userController.profilePic)
+
 export default router;
 
 

@@ -7,8 +7,8 @@ import FormContainer from '../components/FormContainer';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 
-import { useUpdateUserMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useUpdateUserMutation ,useUpdateUserProfilePicMutation} from '../slices/usersApiSlice';
+import { setCredentials} from '../slices/authSlice';
 
 
 
@@ -19,18 +19,49 @@ const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [image,setImage]=useState(null)
+  const [nImage,setNImage] = useState(null)
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
    const {userInfo} = useSelector((state)=> state.auth);
    const [updateProfile,{isLoading}] = useUpdateUserMutation();
+   const[ updateUserProfilePic] = useUpdateUserProfilePicMutation();
 
    useEffect(()=>{
         setName(userInfo.name);
         setEmail(userInfo.email)
+        setImage(userInfo.image)
     
-      },[userInfo.email,userInfo.name])
+      },[userInfo.email,userInfo.name,userInfo.image])
+
+
+  const handleProfile = async (e)=>{
+    e.preventDefault();
+    
+    if(!nImage)toast.error('please select an image')
+    else{
+      const formData = new FormData();
+      formData.append('image', nImage);
+      
+      try {
+        const res = await updateUserProfilePic(
+          formData
+         ).unwrap()
+         dispatch(setCredentials({ ...res }));
+         toast.success('Profile picture added successfully');
+        
+      } catch (error) {
+
+        toast.error(err?.data?.message || err.error);
+        
+      }
+      
+    }
+  }
+
+
 
    const submitHandler = async (e) => {
    
@@ -46,6 +77,7 @@ const ProfileScreen = () => {
           email,
           password,
         }).unwrap();
+        
         dispatch(setCredentials({ ...res }));
         navigate('/')
         toast.success('Profile updated successfully');
@@ -58,6 +90,24 @@ const ProfileScreen = () => {
   return (
     <FormContainer>
       <h1>Update Profile</h1>
+      {nImage ?
+      <img alt="profile" width="200px" height="200px" src={nImage ? URL.createObjectURL(nImage) : ''}></img>
+       :
+       <img alt="profile" width="200px" height="200px" src={`http://127.0.0.1:5500/backend/utils/uploads/${image}`}></img>
+       }
+      <Form onSubmit={handleProfile} encType='multipart/form-data'>
+        <Form.Group className='my-2' controlId='name'>
+          <Form.Label>Image</Form.Label>
+            <Form.Control
+            type='file'
+            onChange={(e)=>setNImage(e.target.files[0])}
+            >        
+          </Form.Control> 
+        </Form.Group>
+        <Button type='submit' variant='primary' className='mt-3'>
+        Upload
+        </Button>
+      </Form>
 
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='name'>

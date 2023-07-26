@@ -5,15 +5,23 @@ import adminRoutes from "./routes/adminRouter.js"
 import { notFound,errorHandler } from "./middlewares/errorMiddleware.js";
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
+import cors from 'cors'
+import path from 'path'
+import { getDirname } from "./utils/util.js";
+
+
 
 
 dotenv.config()
 connectDB(); 
 const app = express();
+const __dirname = getDirname(import.meta.url);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
+app.use(cors())
+app.use('/image', express.static(path.join(__dirname, './utils/uploads')));
 
 
 app.use('/api/admin',adminRoutes)

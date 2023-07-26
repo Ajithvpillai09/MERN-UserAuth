@@ -29,7 +29,6 @@ const AdminHome = ()=>{
     async function getAllUsers(){
         try {
             const res = await getUser().unwrap()
-            console.log(res);
             dispatch(getUsers(res))  
             setUsers(res)
             setFilteredUser(res)
@@ -71,7 +70,6 @@ const AdminHome = ()=>{
                    
                   setSearchText(e.target.value)
                    const data = filteredData(searhText,filteredUser)
-                   console.log(data);
                    setUsers(data)
 
             }}></input>           

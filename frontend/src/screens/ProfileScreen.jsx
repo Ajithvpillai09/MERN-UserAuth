@@ -93,7 +93,7 @@ const ProfileScreen = () => {
       {nImage ?
       <img alt="profile" width="200px" height="200px" src={nImage ? URL.createObjectURL(nImage) : ''}></img>
        :
-       <img alt="profile" width="200px" height="200px" src={`http://127.0.0.1:5500/backend/utils/uploads/${image}`}></img>
+       <img alt="profile" width="200px" height="200px" src={`http://localhost:5000/image/${image}`}></img>
        }
       <Form onSubmit={handleProfile} encType='multipart/form-data'>
         <Form.Group className='my-2' controlId='name'>
